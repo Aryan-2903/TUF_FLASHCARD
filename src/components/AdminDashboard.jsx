@@ -3,7 +3,7 @@ import styles from './AdminDashboard.module.css';
 
 const AdminDashboard = () => {
   const [cards, setCards] = useState([]);
-  const [newCard, setNewCard] = useState({ question: '', answer: '' });
+  const [newCard, setNewCard] = useState({ Question: '', Answer: '' });
 
   useEffect(() => {
     fetchCards();
@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newCard),
       });
-      setNewCard({ question: '', answer: '' });
+      setNewCard({ Question: '', Answer: '' });
       fetchCards();
     } catch (error) {
       console.error('Error adding card:', error);
@@ -52,16 +52,16 @@ const AdminDashboard = () => {
       <h2>Admin Dashboard</h2>
       <form onSubmit={handleAddCard} className={styles.form}>
         <input
-          name="question"
-          value={newCard.question}
+          name="Question"
+          value={newCard.Question}
           onChange={handleInputChange}
           placeholder="Question"
           required
           className={styles.input}
         />
         <input
-          name="answer"
-          value={newCard.answer}
+          name="Answer"
+          value={newCard.Answer}
           onChange={handleInputChange}
           placeholder="Answer"
           required
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
       <ul className={styles.cardList}>
         {cards.map((card) => (
           <li key={card.id} className={styles.cardItem}>
-            <span>{card.question} - {card.answer}</span>
+            <span>{card.Question} - {card.Answer}</span>
             <button onClick={() => handleDeleteCard(card.id)} className={styles.deleteButton}>Delete</button>
           </li>
         ))}
