@@ -12,6 +12,9 @@ const AdminDashboard = () => {
   const fetchCards = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/flashcards');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       const data = await response.json();
       setCards(data);
     } catch (error) {
@@ -26,13 +29,16 @@ const AdminDashboard = () => {
   const handleAddCard = async (e) => {
     e.preventDefault();
     try {
-      await fetch('http://localhost:3000/api/flashcards', {
+      const response = await fetch('http://localhost:3000/api/flashcards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newCard),
       });
-      setNewCard({ Question: '', Answer: '' });
-      fetchCards();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      setNewCard({ Question: '', Answer: '' }); // Clear form inputs
+      fetchCards(); // Refresh the list of cards
     } catch (error) {
       console.error('Error adding card:', error);
     }
@@ -40,8 +46,11 @@ const AdminDashboard = () => {
 
   const handleDeleteCard = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/flashcards/${id}`, { method: 'DELETE' });
-      fetchCards();
+      const response = await fetch(`http://localhost:3000/api/flashcards/${id}`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      fetchCards(); // Refresh the list of cards
     } catch (error) {
       console.error('Error deleting card:', error);
     }
