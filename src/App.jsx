@@ -1,4 +1,5 @@
 import React from 'react';
+import Flashcard from './components/Flashcard';
 import FlashcardList from './components/FlashcardList';
 import AdminDashboard from './components/AdminDashboard';
 import styles from './App.module.css';
