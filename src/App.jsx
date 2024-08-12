@@ -7,7 +7,7 @@ import styles from './App.module.css';
 const App = () => {
   return (
     <div className={styles.app}>
-      <h1 className={styles.title}>Flashcard Learning Tool</h1>
+      <h1 className={styles.title}>TUF FLASHCARD</h1>
       <FlashcardList />
       <AdminDashboard />
     </div>
