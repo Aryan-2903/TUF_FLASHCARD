@@ -11,7 +11,7 @@ const AdminDashboard = () => {
 
   const fetchCards = async () => {
     try {
-      const response = await fetch('/api/flashcards');
+      const response = await fetch('http://localhost:3000/api/flashcards');
       const data = await response.json();
       setCards(data);
     } catch (error) {
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
   const handleAddCard = async (e) => {
     e.preventDefault();
     try {
-      await fetch('/api/flashcards', {
+      await fetch('http://localhost:3000/api/flashcards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newCard),
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
 
   const handleDeleteCard = async (id) => {
     try {
-      await fetch(`/api/flashcards/${id}`, { method: 'DELETE' });
+      await fetch(`http://localhost:3000/api/flashcards/${id}`, { method: 'DELETE' });
       fetchCards();
     } catch (error) {
       console.error('Error deleting card:', error);
