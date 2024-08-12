@@ -12,10 +12,10 @@ const Flashcard = ({ card }) => {
     <div className={styles.flashcard} onClick={handleFlip}>
       <div className={`${styles.flashcardInner} ${isFlipped ? styles.flipped : ''}`}>
         <div className={styles.flashcardFront}>
-          <p>{card.question}</p>
+          <p>{card.Question}</p>
         </div>
         <div className={styles.flashcardBack}>
-          <p>{card.answer}</p>
+          <p>{card.Answer}</p>
         </div>
       </div>
     </div>
