@@ -1,48 +1,59 @@
-import express from 'express';
-import db from './db.js';
-import cors from 'cors'; 
-
-
-
+"use dynamic"
+const express = require("express");
+const JSON = require("JSON");
 const app = express();
+const cors = require('cors')
+const port = 8080;
+const { connection } = require("./db");
+console.log(connection);
+app.use(cors())
 app.use(express.json());
-app.use(cors());
-
-// Get all flashcards
-app.get('/api/flashcards', async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM flashcard');
-    res.json(rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-// Add a new flashcard
-app.post('/api/flashcards', async (req, res) => {
-  const { Question, Answer } = req.body;
-  try {
-    const [result] = await db.query('INSERT INTO flashcard (Question, Answer) VALUES (?, ?)', [Question, Answer]);
-    res.status(201).json({ id: result.insertId, Question, Answer });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+app.get("/api/all", async (req, res) => {
+  const result = (
+    await connection.promise().query("select * from fliptable")
+  )[0];
+  res.json(result);
 });
 
-// Delete a flashcard
-app.delete('/api/flashcards/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    await db.query('DELETE FROM flashcard WHERE id = ?', [id]);
-    res.status(204).end();
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+app.post("/api/new", async (req, res) => {
+  const { question, answer } = req.body;
+  const result = await connection
+    .promise()
+    .query(
+      `insert into fliptable values(default,"${question}","${answer}");`
+    );
+  res.json(result[0]["insertId"]);
 });
 
+app.get("/api/card/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await connection
+    .promise()
+    .query(`select * from fliptable where id=${id};`);
+  res.json(result[0]);
+});
 
-app.listen(3000, ()=>{
-    console.log('Server running on port 3000');
-    
+app.delete("/api/card/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await connection
+    .promise()
+    .query(`delete from fliptable where id=${id};`);
+  res.json("deleted");
+});
 
+app.patch("/api/card/:id", async (req, res) => {
+  const id = req.params.id;
+  const { question, answer } = req.body;
+  const result = await connection
+    .promise()
+    .query(`update fliptable set question="${question}", answer="${answer}" where id=${id};`);
+  res.json("updated");
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });
