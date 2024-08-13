@@ -12,7 +12,7 @@ const FlashcardList = () => {
 
   const fetchCards = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/flashcards');
+      const response = await fetch('https://tyf-backend-seven.vercel.app/api/all');
       const data = await response.json();
       setCards(data);
     } catch (error) {
