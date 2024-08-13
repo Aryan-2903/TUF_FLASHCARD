@@ -3,7 +3,7 @@ import styles from './AdminDashboard.module.css';
 
 const AdminDashboard = () => {
   const [cards, setCards] = useState([]);
-  const [newCard, setNewCard] = useState({ Question: '', Answer: '' });
+  const [newCard, setNewCard] = useState({ question: '', answer: '' });
 
   useEffect(() => {
     fetchCards();
@@ -29,9 +29,9 @@ const AdminDashboard = () => {
     await fetch('https://tyf-backend-seven.vercel.app/api/new', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: newCard.Question, answer: newCard.Answer }),
+      body: JSON.stringify({ question: newCard.question, answer: newCard.answer }),
     });
-    setNewCard({ Question: '', Answer: '' });
+    setNewCard({ question: '', answer: '' });
     fetchCards();
   } catch (error) {
     console.error('Error adding card:', error);
@@ -52,18 +52,18 @@ const AdminDashboard = () => {
       <h2>Admin Dashboard</h2>
       <form onSubmit={handleAddCard} className={styles.form}>
         <input
-          name="Question"
-          value={newCard.Question}
+          name="question"
+          value={newCard.question}
           onChange={handleInputChange}
-          placeholder="Question"
+          placeholder="question"
           required
           className={styles.input}
         />
         <input
-          name="Answer"
-          value={newCard.Answer}
+          name="answer"
+          value={newCard.answer}
           onChange={handleInputChange}
-          placeholder="Answer"
+          placeholder="answer"
           required
           className={styles.input}
         />
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
       <ul className={styles.cardList}>
         {cards.map((card) => (
           <li key={card.id} className={styles.cardItem}>
-            <span>{card.Question} - {card.Answer}</span>
+            <span>{card.question} - {card.answer}</span>
             <button onClick={() => handleDeleteCard(card.id)} className={styles.deleteButton}>Delete</button>
           </li>
         ))}
