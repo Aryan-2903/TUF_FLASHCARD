@@ -11,7 +11,7 @@ const AdminDashboard = () => {
 
   const fetchCards = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/flashcards');
+          const response = await fetch('https://tyf-backend-seven.vercel.app/api/all');
       const data = await response.json();
       setCards(data);
     } catch (error) {
@@ -23,29 +23,29 @@ const AdminDashboard = () => {
     setNewCard({ ...newCard, [e.target.name]: e.target.value });
   };
 
-  const handleAddCard = async (e) => {
-    e.preventDefault();
-    try {
-      await fetch('http://localhost:3000/api/flashcards', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newCard),
-      });
-      setNewCard({ Question: '', Answer: '' });
-      fetchCards();
-    } catch (error) {
-      console.error('Error adding card:', error);
-    }
-  };
+ const handleAddCard = async (e) => {
+  e.preventDefault();
+  try {
+    await fetch('https://tyf-backend-seven.vercel.app/api/new', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: newCard.Question, answer: newCard.Answer }),
+    });
+    setNewCard({ Question: '', Answer: '' });
+    fetchCards();
+  } catch (error) {
+    console.error('Error adding card:', error);
+  }
+};
 
   const handleDeleteCard = async (id) => {
-    try {
-      await fetch(`http://localhost:3000/api/flashcards/${id}`, { method: 'DELETE' });
-      fetchCards();
-    } catch (error) {
-      console.error('Error deleting card:', error);
-    }
-  };
+  try {
+    await fetch(`https://tyf-backend-seven.vercel.app/api/card/${id}`, { method: 'DELETE' });
+    fetchCards();
+  } catch (error) {
+    console.error('Error deleting card:', error);
+  }
+};
 
   return (
     <div className={styles.adminDashboard}>
